@@ -8,8 +8,7 @@ import plotly.express as px
 import pandas as pd
 import prince
 from sklearn.manifold import TSNE
-
-
+import umap
 from sklearn.manifold import LocallyLinearEmbedding
 
 def dim_red(mat, p , method):
@@ -26,6 +25,9 @@ def dim_red(mat, p , method):
   elif(method=="LLE"):
     lle = LocallyLinearEmbedding(n_neighbors=10, n_components=p)
     red_mat = lle.fit_transform(mat)
+    return red_mat
+  elif (method == 'UMAP'):
+    red_mat = umap.UMAP(n_components = p) .fit_transform(mat)
     return red_mat
   else:
     raise Exception("Please select one of the three methods : APC, AFC, UMAP, LLE")
