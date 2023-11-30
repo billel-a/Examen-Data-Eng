@@ -87,3 +87,26 @@ for fold, (train_index, test_index) in enumerate(skf.split(embeddings, labels)):
     print(f'Method :{method} ')
     print(f'Fold: {fold+1}')
     print(f'\nNMI: {nmi_score:.2f} \nARI: {ari_score:.2f}\nAccuracy: {acc:.2f}\n')
+
+import matplotlib.pyplot as plt
+
+# ... (votre code précédent)
+
+# Plot t-SNE results in 2D
+fig, ax = plt.subplots(1, 2, figsize=(12, 6))
+
+# Plot true labels
+scatter1 = ax[0].scatter(red_emb[:, 0], red_emb[:, 1], c=labels, marker='o', label='True Labels')
+ax[0].set_title('True Labels')
+ax[0].set_xlabel('Dimension 1')
+ax[0].set_ylabel('Dimension 2')
+ax[0].legend()
+
+# Plot predicted labels
+scatter2 = ax[1].scatter(red_emb[:, 0], red_emb[:, 1], c=pred, marker='x', label='Predicted Labels')
+ax[1].set_title('Predicted Labels')
+ax[1].set_xlabel('Dimension 1')
+ax[1].set_ylabel('Dimension 2')
+ax[1].legend()
+
+plt.show()
