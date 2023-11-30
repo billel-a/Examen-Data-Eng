@@ -11,6 +11,20 @@ This is the source code for the [classification of the NG20 dataset](https://git
 ## Solutuoin Overview
 ![image](https://github.com/billel-a/Examen-Data-Eng/blob/main/shema_project.png)
 
+## Objectives
+
+✅ Developing the model locally with Docker and mounting a volume on the project.
+
+✅ Visualizing data on a 2D and 3D plane using PCA, MCA, and UMAP.
+
+✅ Writing good documentation (README).
+
+✅ Saving data to avoid downloading it (pickle file) with each instantiation of a new container (or installing it in the Docker image).
+
+✅ Performing different initializations and displaying the mean (and standard deviation) of the results.
+
+✅ Adding dimensionality reduction method (LLE) and clustering algorithm (Agglomerative and DBScan).
+
 #### Dependencies
 - scikit-learn==0.24.2
 - numpy
