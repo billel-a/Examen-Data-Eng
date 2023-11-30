@@ -13,7 +13,7 @@ This is the source code for the [classification of the NG20 dataset](https://git
 
 ## Objectives
 
-✅ Developing the model locally with Docker and mounting a volume on the project.
+✅ Developing the model locally with Docker and mounting a volume on the project (docker run -v C:\Users\MLDSadmin\Exam_V2\Examen-Data-Eng --name container_exam akninebillel/imageexamen:1).
 
 ✅ Visualizing data on a 2D and 3D plane using PCA, MCA, and UMAP.
 
@@ -35,6 +35,6 @@ This is the source code for the [classification of the NG20 dataset](https://git
 
 
 ## Final Best tandem approch 
-The most effective combination was achieved by integrating T-SNE with K-means, resulting in the highest NMI of 0.41 and ARI of 0.247.
-
+The most effective combination was achieved by integrating UMAP with K-means, resulting in the highest NMI of 0.47 and ARI of 0.29.
+![image](https://github.com/billel-a/Examen-Data-Eng/blob/main/NMI_ARI_UMAP_Kmeans.png)
 
