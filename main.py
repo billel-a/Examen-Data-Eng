@@ -14,7 +14,7 @@ from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import DBSCAN
 import pandas as pd
 
-!pip install sentence-transformers prince scikit-learn
+!pip install prince
 import plotly.express as px
 import pandas as pd
 import prince
@@ -61,77 +61,6 @@ def clust(mat, k,method = "KMeans"):
   else:
     raise Exception("Please select one of the three methods : KMeans, agglomerative, DBScan")
 
-import plotly.subplots as sp
-import plotly.graph_objs as go
-import plotly.express as px
-
-def plot_clustering_2D(df_clust):
-  fig = sp.make_subplots(rows=1, cols=2, subplot_titles=['Predicted Labels', 'True Labels']  )
-
-  # Scatter plot with predicted labels
-  scatter_pred = go.Scatter(
-        x=df_clust['Dimension 1'],
-        y=df_clust['Dimension 2'],
-
-      mode='markers',
-      marker=dict(color=df_clust['Cluster'], size=5, opacity=0.8),
-      name='Predicted Labels'
-  )
-  fig.add_trace(scatter_pred, row=1, col=1)
-
-  # Scatter plot with true labels
-  scatter_true = go.Scatter(
-        x=df_clust['Dimension 1'],
-        y=df_clust['Dimension 2'],
-      mode='markers',
-      marker=dict(color=df_clust['Label'], size=5, opacity=0.8),
-      name='True Labels'
-  )
-  fig.add_trace(scatter_true, row=1, col=2)
-
-  # Update layout
-  fig.update_layout(showlegend=False)
-
-  # Show the plot
-  fig.show()
-
-from plotly.subplots import make_subplots
-
-def plot_clustering_3D(df_clust , method  = ""):
-    fig = make_subplots(rows=1, cols=2, subplot_titles=['Predicted Labels', 'True Labels'],
-                        specs=[[{'type': 'scatter3d'}, {'type': 'scatter3d'}]])
-
-    # Scatter plot with predicted labels
-    scatter_pred = go.Scatter3d(
-        x=df_clust['Dimension 1'],
-        y=df_clust['Dimension 2'],
-        z=df_clust['Dimension 3'],
-        mode='markers',
-        marker=dict(color=df_clust['Cluster'], size=5, opacity=0.8),
-        name='Predicted Labels'
-    )
-    fig.add_trace(scatter_pred, row=1, col=1)
-
-    # Scatter plot with true labels
-    scatter_true = go.Scatter3d(
-        x=df_clust['Dimension 1'],
-        y=df_clust['Dimension 2'],
-        z=df_clust['Dimension 3'],
-        mode='markers',
-        marker=dict(color=df_clust['Label'], size=5, opacity=0.8),
-        name='True Labels'
-    )
-    fig.add_trace(scatter_true, row=1, col=2)
-
-    # Update layout
-    fig.update_layout(showlegend=False)
-
-    # Show the plot
-    fig.show()
-
-# Example usage
-# plot_clustering_3D(your_dataframe)
-
 import pickle
 with open("data.pkl" , "rb") as file:
   embeddings,labels = pickle.load(file)
@@ -140,17 +69,12 @@ with open("data.pkl" , "rb") as file:
 k = len(set(labels))
 
 # embedding
-method = "LLE"
+method = "ACP"
 # perform dimentionality reduction
 red_emb = dim_red(embeddings, 20,method )
-red_emb_3d_plot = dim_red(red_emb, 3 ,method )
-
 
 # perform clustering
 pred = clust(red_emb, k)
-df_clust = pd.DataFrame({'Dimension 1': red_emb_3d_plot[:, 0], 'Dimension 2': red_emb_3d_plot[:, 1], 'Dimension 3': red_emb_3d_plot[:, 2], 'Cluster': pred, 'Label': labels})
-plot_clustering_2D(df_clust)
-plot_clustering_3D(df_clust)
 
 # evaluate clustering results
 nmi_score = normalized_mutual_info_score(pred,labels)
@@ -162,13 +86,12 @@ import warnings
 # Fit clustering 20 times
 nmi_scores = []
 ari_scores = []
-n_iterations = 20
+n_iterations = 3
 # Suppress FutureWarning related to KMeans
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", category=FutureWarning)
 for _ in range(n_iterations):
   pred = clust(red_emb, k)
-  df_clust = pd.DataFrame({'Dimension 1': red_emb_3d_plot[:, 0], 'Dimension 2': red_emb_3d_plot[:, 1], 'Dimension 3': red_emb_3d_plot[:, 2], 'Cluster': pred, 'Label': labels})
   # Evaluate clustering results
   nmi_score = normalized_mutual_info_score(pred, labels)
   ari_score = adjusted_rand_score(pred, labels)
@@ -182,21 +105,6 @@ mean_nmi = np.mean(nmi_scores)
 mean_ari = np.mean(ari_scores)
 
 # Print mean scores
-print(f'Mean NMI: {mean_nmi:.2f}')
-print(f'Mean ARI: {mean_ari:.2f}')
+print(f'NMI Scores Mean: {np.mean(nmi_scores):.2f} +/- {np.std(nmi_scores):.2f}')
+print(f'ARI Scores Mean: {np.mean(ari_scores):.2f} +/- {np.std(ari_scores):.2f}')
 
-iterations = [i for i in range(n_iterations)]
-# Create subplots
-fig = sp.make_subplots(rows=2, cols=1, subplot_titles=[f'NMI Scores Mean: {np.mean(nmi_scores):.2f} +/- {np.std(nmi_scores):.2f}',
-        f'ARI Scores Mean: {np.mean(ari_scores):.2f} +/- {np.std(ari_scores):.2f}'], shared_xaxes=True)
-
-# Add traces to the subplots
-
-fig.add_trace(go.Scatter(x=iterations, y=nmi_scores, mode='lines+markers', name='NMI Scores'), row=1, col=1)
-fig.add_trace(go.Scatter(x=iterations, y=ari_scores, mode='lines+markers', name='ARI Scores'), row=2, col=1)
-
-# Update layout
-fig.update_layout(title_text='NMI and ARI Scores Over Iterations', showlegend=True)
-
-# Show the plot
-fig.show()
