@@ -4,8 +4,6 @@ from sklearn.cluster import KMeans
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import DBSCAN
 import pandas as pd
-import plotly.express as px
-import pandas as pd
 import prince
 from sklearn.manifold import TSNE
 import umap
