@@ -35,6 +35,6 @@ This is the source code for the [classification of the NG20 dataset](https://git
 
 
 ## Final Best tandem approch 
-The most effective combination was achieved by integrating UMAP with K-means, resulting in the highest NMI of 0.47 and ARI of 0.29.
+The most effective combination was achieved by integrating UMAP with K-means, resulting in the highest NMI of 0.49 and ARI of 0.3.
 ![image](https://github.com/billel-a/Examen-Data-Eng/blob/main/NMI_ARI_UMAP_Kmeans.png)
 
