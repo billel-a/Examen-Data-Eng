@@ -87,27 +87,3 @@ for fold, (train_index, test_index) in enumerate(skf.split(embeddings, labels)):
     print(f'Method :{method} ')
     print(f'Fold: {fold+1}')
     print(f'\nNMI: {nmi_score:.2f} \nARI: {ari_score:.2f}\nAccuracy: {acc:.2f}\n')
-
-import plotly.express as px
-
-# Assuming red_emb is a DataFrame containing the reduced embeddings after t-SNE
-# Assuming pred is the predicted cluster labels after clustering
-
-# Create an interactive scatter plot
-fig = px.scatter(red_emb, x=0, y=1, color=pred, title='Interactive Scatter Plot after t-SNE and Clustering',
-                 labels={'0': 'Dimension 1', '1': 'Dimension 2'},
-                 color_continuous_scale='viridis')
-
-fig.show()
-
-import plotly.express as px
-
-# Assuming red_emb is a DataFrame containing the reduced embeddings after t-SNE
-# Assuming pred is the predicted cluster labels after clustering
-
-# Create an interactive 3D scatter plot
-fig_3d = px.scatter_3d(red_emb, x=0, y=1, z=2, color=pred, title='Interactive 3D Scatter Plot after t-SNE and Clustering',
-                      labels={'0': 'Dimension 1', '1': 'Dimension 2', '2': 'Dimension 3'},
-                      color_continuous_scale='viridis')
-
-fig_3d.show()
